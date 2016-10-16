@@ -1,0 +1,48 @@
+html,body{
+	margin:0px;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+
+body{
+	background:#000 url(background.jpg);
+	background-size:100% 100%;
+}
+
+@font-face {
+    font-family: 'Square721';
+	src: url('TT0246M_.TTF') format('truetype'),
+		 url('TT0246M_.otf') format('opentype'),
+		 url('TT0246M_.woff') format('woff');
+}
+
+#canvas{
+	position:absolute;
+	width:100%;
+	height:100%;
+	cursor:none;
+}
+
+#startButtonDiv{
+	position:absolute;
+	width:100%;
+	height:100%;
+	border:1px solid white;
+	text-align:center;
+}
+#start{
+	position:relative;
+	top:36%;
+	margin-right:auto;
+	font-family:Square721;
+	font-size:5em;
+	border-radius:.5em;
+	background:#20c;
+	padding-right:.5em;
+	padding-left:.5em;
+	color:#f08;
+	border:10px solid #46f;
+	font-style:italic;
+	cursor:pointer;
+}
