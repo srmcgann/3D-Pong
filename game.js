@@ -559,7 +559,7 @@ function frame(vars) {
 		vars.ballPic=new Image();
 		vars.ballPic.src="ball.png";
 		vars.soundtrack=new Audio("soundtrack.mp3");
-		vars.soundtrack.volume=.35;
+		vars.soundtrack.volume=0.3;
 		vars.soundtrack.play();
 		vars.soundtrack.addEventListener('ended', function() {
 			this.currentTime = 0;
