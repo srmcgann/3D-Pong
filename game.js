@@ -1,6 +1,6 @@
 /*	3D Pong
 //	Scott McGann - October 2016
-//	s.r.mcgann@hotmail.com
+//	s.r.mcgann [at] hotmail.com
 */
 
 function rasterizePoint(x,y,z,vars){
