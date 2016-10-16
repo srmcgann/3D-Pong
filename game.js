@@ -533,7 +533,6 @@ function frame(vars) {
 		vars.camZ = -10;
 		vars.pitch = 0;
 		vars.yaw = 0;
-		vars.scale = 500;
 		vars.mx=0;
 		vars.my=0;
 		vars.omx=0;
