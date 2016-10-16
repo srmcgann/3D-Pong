@@ -188,7 +188,7 @@ function interpolateColors(RGB1,RGB2,degree){
 function beep(){
 	
 	var beep=new Audio("beep.mp3");
-	beep.volume=0.65;
+	beep.volume=0.85;
 	beep.play();
 }
 
@@ -196,7 +196,7 @@ function beep(){
 function playWin(){
 	
 	var win=new Audio("win.mp3");
-	win.volume=0.75;
+	win.volume=0.6;
 	win.play();
 }
 
@@ -204,17 +204,15 @@ function playWin(){
 function playLose(){
 	
 	var lose=new Audio("lose.mp3");
-	lose.volume=0.85;
+	lose.volume=1;
 	lose.play();
 }
 
 
 function process(vars){
 
-	vars.omx=vars.mx;
-	vars.omy=vars.my;
 	vars.paddleScale=3+Math.sin(vars.frameNo/6)/10;
-  var p, d, t;
+	var p, d, t;
 	switch(vars.phase){
 		case 0:
 			p = Math.atan2(vars.camX, vars.camZ);
@@ -506,24 +504,18 @@ function frame(vars) {
 		vars.canvas.height = 768;
 		vars.canvas.addEventListener("mousemove", function(e){
 			var rect = canvas.getBoundingClientRect();
-			vars.omx = vars.mx;
-			vars.omy = vars.my;
 			vars.mx = Math.round((e.clientX-rect.left)/(rect.right-rect.left)*canvas.width);
 			vars.my = Math.round((e.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height);				
 		}, true);
 		vars.canvas.addEventListener("touchstart", function(e){
 			e.preventDefault();
 			var rect = canvas.getBoundingClientRect();
-			vars.omx = vars.mx;
-			vars.omy = vars.my;
 			vars.mx = Math.round((e.changedTouches[0].pageX-rect.left)/(rect.right-rect.left)*canvas.width);
 			vars.my = Math.round((e.changedTouches[0].pageY-rect.top)/(rect.bottom-rect.top)*canvas.height);				
 		}, true);
 		vars.canvas.addEventListener("touchmove", function(e){
 			e.preventDefault();
 			var rect = canvas.getBoundingClientRect();
-			vars.omx = vars.mx;
-			vars.omy = vars.my;
 			vars.mx = Math.round((e.changedTouches[0].pageX-rect.left)/(rect.right-rect.left)*canvas.width);
 			vars.my = Math.round((e.changedTouches[0].pageY-rect.top)/(rect.bottom-rect.top)*canvas.height);				
 		}, true);
@@ -535,8 +527,6 @@ function frame(vars) {
 		vars.yaw = 0;
 		vars.mx=0;
 		vars.my=0;
-		vars.omx=0;
-		vars.omy=0;
 		vars.cx=vars.canvas.width/2;
 		vars.cy=vars.canvas.height/2;
 		vars.scale=600;
@@ -568,6 +558,13 @@ function frame(vars) {
 		vars.playerPaddle.src="blue_paddle.png";
 		vars.ballPic=new Image();
 		vars.ballPic.src="ball.png";
+		vars.soundtrack=new Audio("soundtrack.mp3");
+		vars.soundtrack.volume=.35;
+		vars.soundtrack.play();
+		vars.soundtrack.addEventListener('ended', function() {
+			this.currentTime = 0;
+			this.play();
+		}, false);
 		var temp=[new Audio("beep.mp3"),new Audio("win.mp3"),new Audio("lose.mp3")];
 		loadCourt(vars);
 	}

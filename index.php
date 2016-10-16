@@ -8,7 +8,6 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	</head>
 	<body>
-		<? include_once("../analysis.php") ?>
 		<canvas id="canvas"></canvas>
 		<div id="startButtonDiv">
 			<button id="start">Start Game</button>
