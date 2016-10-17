@@ -118,29 +118,6 @@
 	}
 
 
-	function loadCube(x,y,z){
-		
-		var shape={};
-		shape.x=x;
-		shape.y=y;
-		shape.z=z;
-		shape.segs=[];
-		shape.segs.push(new Seg(-1,-1,-1,1,-1,-1));
-		shape.segs.push(new Seg(1,-1,-1,1,1,-1));
-		shape.segs.push(new Seg(1,1,-1,-1,1,-1));
-		shape.segs.push(new Seg(-1,1,-1,-1,-1,-1));
-		shape.segs.push(new Seg(-1,-1,1,1,-1,1));
-		shape.segs.push(new Seg(1,-1,1,1,1,1));
-		shape.segs.push(new Seg(1,1,1,-1,1,1));
-		shape.segs.push(new Seg(-1,1,1,-1,-1,1));
-		shape.segs.push(new Seg(-1,-1,-1,-1,-1,1));
-		shape.segs.push(new Seg(1,-1,-1,1,-1,1));
-		shape.segs.push(new Seg(1,1,-1,1,1,1));
-		shape.segs.push(new Seg(-1,1,-1,-1,1,1));
-		return shape;
-	}
-
-
 	function Vert(x,y,z){
 		this.x = x;
 		this.y = y;
@@ -261,7 +238,7 @@
 				
 				if(Math.abs(vars.ballX+vars.ballVX)>vars.courtWidth/2-vars.ballRadius)vars.ballVX*=-1;
 				if(Math.abs(vars.ballY+vars.ballVY)>vars.courtHeight/2-vars.ballRadius)vars.ballVY*=-1;
-				if(Math.abs(vars.ballZ+vars.ballVZ)>vars.courtDepth/2-vars.ballRadius){
+				if(Math.abs(vars.ballZ+vars.ballVZ)>vars.courtDepth/2){
 					if(vars.ballZ>0){
 						d=Math.sqrt((vars.ballX-vars.AIX)*(vars.ballX-vars.AIX)+(vars.ballY-vars.AIY)*(vars.ballY-vars.AIY));
 						if(d<0.15*vars.paddleScale){
@@ -295,6 +272,8 @@
 				vars.ballX+=vars.ballVX;
 				vars.ballY+=vars.ballVY;
 				vars.ballZ+=vars.ballVZ;
+				
+				vars.shapes[1].z=vars.ballZ
 			break;
 			case 3: case 4:
 				p = Math.atan2(vars.camX, vars.camZ);
@@ -372,10 +351,24 @@
 		}
 
 		// draw scene
-		vars.ctx.globalAlpha=0.7;
 		var t=0;
 		for(var i=0;i<vars.shapes.length;++i){
 			vars.shapes[i].segs.sort(sortFunction);
+			switch(i){
+				case 0:
+					vars.ctx.globalAlpha=0.7;
+				break;
+				case 1:
+					if(vars.phase!=2){
+						vars.ctx.globalAlpha=0;
+					}else{
+						vars.ctx.globalAlpha=0.45;
+					}
+				break;
+				default:
+					vars.ctx.globalAlpha=0.2;
+				break;
+			}
 			for(var j=0;j<vars.shapes[i].segs.length;++j){
 				t++;
 				var x=vars.shapes[i].x+vars.shapes[i].segs[j].a.x;
@@ -395,7 +388,11 @@
 								vars.ctx.strokeStyle=interpolateColors([0.5,1,0.4],rgbArray(pointB.d+vars.frameNo/5),vars.backgroundAlpha);
 							break;
 							case 2:
-								vars.ctx.strokeStyle=interpolateColors([1,1,1],rgbArray(pointB.d+vars.frameNo/5),0.66+Math.sin(vars.frameNo/35)/3);
+								if(i==1){
+									vars.ctx.strokeStyle="#0f4";
+								}else{
+									vars.ctx.strokeStyle=interpolateColors([1,1,1],rgbArray(pointB.d+vars.frameNo/5),0.66+Math.sin(vars.frameNo/35)/3);
+								}
 							break;
 							case 3:
 								vars.ctx.strokeStyle=rgb(pointB.d+vars.frameNo/5);
@@ -405,7 +402,7 @@
 							break;
 						}
 						vars.ctx.beginPath();
-						vars.ctx.lineWidth=1+80/(1+Math.pow(pointB.d,1.5));
+						vars.ctx.lineWidth=1+vars.shapes[i].lineWidth/(1+Math.pow(pointB.d,1.5));
 						vars.ctx.moveTo(pointA.x,pointA.y);
 						vars.ctx.lineTo(pointB.x,pointB.y);
 						vars.ctx.stroke();
@@ -443,7 +440,7 @@
 
 				point=rasterizePoint(vars.ballX,vars.ballY,vars.ballZ,vars);
 				if(point.d!=-1){
-					var size=vars.ballPic.width/point.d/2;
+					var size=vars.ballPic.width/point.d/1.5;
 					vars.ctx.drawImage(vars.ballPic,point.x-size/2,point.y-size/2,size,size);			
 				}
 				
@@ -457,17 +454,66 @@
 	}
 
 
+	function loadCube(x,y,z,lineWidth){
+		
+		var shape={};
+		shape.x=x;
+		shape.y=y;
+		shape.z=z;
+		shape.segs=[];
+		shape.segs.push(new Seg(-1,-1,-1,1,-1,-1));
+		shape.segs.push(new Seg(1,-1,-1,1,1,-1));
+		shape.segs.push(new Seg(1,1,-1,-1,1,-1));
+		shape.segs.push(new Seg(-1,1,-1,-1,-1,-1));
+		shape.segs.push(new Seg(-1,-1,1,1,-1,1));
+		shape.segs.push(new Seg(1,-1,1,1,1,1));
+		shape.segs.push(new Seg(1,1,1,-1,1,1));
+		shape.segs.push(new Seg(-1,1,1,-1,-1,1));
+		shape.segs.push(new Seg(-1,-1,-1,-1,-1,1));
+		shape.segs.push(new Seg(1,-1,-1,1,-1,1));
+		shape.segs.push(new Seg(1,1,-1,1,1,1));
+		shape.segs.push(new Seg(-1,1,-1,-1,1,1));
+		shape.lineWidth=lineWidth;
+		return shape;
+	}
+
+
+	function loadTrackingFrame(x,y,z,lineWidth){
+		
+		var shape={};
+		shape.x=x;
+		shape.y=y;
+		shape.z=z;
+		shape.segs=[];
+		shape.segs.push(new Seg(-1,-1,0,1,-1,0));
+		shape.segs.push(new Seg(1,-1,0,1,1,0));
+		shape.segs.push(new Seg(1,1,0,-1,1,0));
+		shape.segs.push(new Seg(-1,1,0,-1,-1,0));
+		shape.lineWidth=lineWidth;
+		return shape;
+	}
+
+
 	function loadCourt(vars){
 		
-		vars.shapes.push(loadCube(0,0,0));
+		vars.shapes.push(loadCube(0,0,0,80));
 		var scaleX=vars.canvas.width/vars.scale;
 		var scaleY=vars.canvas.height/vars.scale;
 		var scaleZ=4;
 		transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
+		subdivide(vars.shapes[vars.shapes.length-1],40);
+		
+		vars.shapes.push(loadTrackingFrame(0,0,0,200));
+		transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
+		
+		for(var i=1;i<20;++i){
+			vars.shapes.push(loadTrackingFrame(0,0,-scaleZ+scaleZ/10*i,10));
+			transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
+		}
+
 		vars.courtWidth *= scaleX*2;
 		vars.courtHeight *= scaleY*2;
 		vars.courtDepth *= scaleZ*2;
-		subdivide(vars.shapes[vars.shapes.length-1],50);
 	}
 
 	function serveBall(vars){
