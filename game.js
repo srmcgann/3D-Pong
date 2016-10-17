@@ -507,7 +507,7 @@
 		transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
 		
 		for(var i=1;i<20;++i){
-			vars.shapes.push(loadTrackingFrame(0,0,-scaleZ+scaleZ/10*i,10));
+			vars.shapes.push(loadTrackingFrame(0,0,-scaleZ+scaleZ/10*i,50));
 			transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
 		}
 
