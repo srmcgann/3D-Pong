@@ -595,7 +595,7 @@
 			vars.ballRadius=0.1;
 			vars.AIX=0;
 			vars.AIY=0;
-			vars.AISpeed=0.04;
+			vars.AISpeed=0.0365;
 			vars.paddleScale=3.25;
 			vars.AIScore=0;
 			vars.playerScore=0;
