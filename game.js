@@ -244,8 +244,8 @@
 						if(d<0.075*vars.paddleScale){
 							vars.ballVZ*=-1;
 							p=Math.atan2(vars.ballX-vars.AIX,vars.ballY-vars.AIY);
-							vars.ballVX=Math.sin(p)*d/7;
-							vars.ballVY=Math.cos(p)*d/7;
+							vars.ballVX=Math.sin(p)*d/6;
+							vars.ballVY=Math.cos(p)*d/6;
 							beep();
 						}else{
 							vars.playerScore++;
@@ -258,8 +258,8 @@
 						d=Math.sqrt((vars.ballX-vars.playerX)*(vars.ballX-vars.playerX)+(vars.ballY-vars.playerY)*(vars.ballY-vars.playerY));
 						if(d<0.075*vars.paddleScale){
 							p=Math.atan2(vars.ballX-vars.playerX,vars.ballY-vars.playerY);
-							vars.ballVX=Math.sin(p)*d/7;
-							vars.ballVY=Math.cos(p)*d/7;
+							vars.ballVX=Math.sin(p)*d/6;
+							vars.ballVY=Math.cos(p)*d/6;
 							vars.ballVZ*=-1;
 							beep();
 						}else{
