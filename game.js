@@ -190,7 +190,7 @@
 
 	function process(vars){
 
-		vars.paddleScale=3+Math.sin(vars.frameNo/6)/10;
+		vars.paddleScale=5+Math.sin(vars.frameNo/6)/10;
 		var p, d, t;
 		switch(vars.phase){
 			case 0:
@@ -241,7 +241,7 @@
 				if(Math.abs(vars.ballZ+vars.ballVZ)>vars.courtDepth/2){
 					if(vars.ballZ>0){
 						d=Math.sqrt((vars.ballX-vars.AIX)*(vars.ballX-vars.AIX)+(vars.ballY-vars.AIY)*(vars.ballY-vars.AIY));
-						if(d<0.15*vars.paddleScale){
+						if(d<0.075*vars.paddleScale){
 							vars.ballVZ*=-1;
 							p=Math.atan2(vars.ballX-vars.AIX,vars.ballY-vars.AIY);
 							vars.ballVX=Math.sin(p)*d/7;
@@ -256,7 +256,7 @@
 						vars.playerX=(vars.mx/vars.cx/2-0.5)*vars.courtWidth;
 						vars.playerY=(vars.my/vars.cy/2-0.5)*vars.courtHeight;
 						d=Math.sqrt((vars.ballX-vars.playerX)*(vars.ballX-vars.playerX)+(vars.ballY-vars.playerY)*(vars.ballY-vars.playerY));
-						if(d<0.2*vars.paddleScale){
+						if(d<0.075*vars.paddleScale){
 							p=Math.atan2(vars.ballX-vars.playerX,vars.ballY-vars.playerY);
 							vars.ballVX=Math.sin(p)*d/7;
 							vars.ballVY=Math.cos(p)*d/7;
@@ -507,7 +507,7 @@
 		transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
 		
 		for(var i=1;i<20;++i){
-			vars.shapes.push(loadTrackingFrame(0,0,-scaleZ+scaleZ/10*i,50));
+			vars.shapes.push(loadTrackingFrame(0,0,-scaleZ+scaleZ/10*i,30));
 			transform(vars.shapes[vars.shapes.length-1],scaleX,scaleY,scaleZ);
 		}
 
@@ -525,7 +525,7 @@
 		vars.ballZ=0;
 		vars.ballVX=0.025-Math.random()*0.05;
 		vars.ballVY=0.025-Math.random()*0.05;
-		vars.ballVZ=0.1;
+		vars.ballVZ=0.15;
 	}
 
 
@@ -595,7 +595,7 @@
 			vars.ballRadius=0.1;
 			vars.AIX=0;
 			vars.AIY=0;
-			vars.AISpeed=0.035;
+			vars.AISpeed=0.04;
 			vars.paddleScale=3.25;
 			vars.AIScore=0;
 			vars.playerScore=0;
